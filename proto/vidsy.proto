@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option go_package = "github.com/MovAh13h/Vidsy/proto";
+
 package vidsy;
 
 // Vidsy Service 
@@ -9,33 +11,34 @@ service Vidsy {
 
 // Represents status codes
 enum Status {
-	SUCCESS = 1;
-	FAILED = 2;
-	UNAUTHORIZED = 3;
+	SUCCESS = 0;
+	FAILED = 1;
+	UNAUTHORIZED = 2;
 }
 
 // A Response to be sent back
 message Response {
-	required Status status = 1;
-	optional string message = 2;
+	Status status = 1;
+	string message = 2;
+	string up_path = 3;
 }
 
 // Different operations available
 enum OperationType {
-	TRIM = 1;
-	MERGE = 2;
-	BLUR = 3;
-	SCALE = 4;
-	BW = 5;
-	REMOVE_AUDIO = 6;
-	ADD_AUDIO = 7;
-	EXTRACT_AUDIO = 8;
-	IMAGES = 9;
+	TRIM = 0;
+	MERGE = 1;
+	BLUR = 2;
+	SCALE = 3;
+	BW = 4;
+	REMOVE_AUDIO = 5;
+	ADD_AUDIO = 6;
+	EXTRACT_AUDIO = 7;
+	IMAGES = 8;
 }
 
 // An entire operation with its params
 message Operation {
-	required OperationType type = 1;
+	OperationType type = 1;
 	oneof params {
 		TrimParams trim = 2;
 	}
@@ -43,15 +46,12 @@ message Operation {
 
 // A request
 message Request {
-	required string down_path = 1;
+	string down_path = 1;
 	repeated Operation operations = 2;
 }
 
+// Trim request params
 message TrimParams {
-	required int32 start = 1;
-	required int32 end = 2;
-}
-
-message MergeParams {
-	required string 
+	int32 start = 1;
+	int32 end = 2;
 }
