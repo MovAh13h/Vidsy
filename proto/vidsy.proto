@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package vidsy;
+
+// Vidsy Service 
+service Vidsy {
+	rpc Edit (Request) returns (Response) {}
+}
+
+// Represents status codes
+enum Status {
+	SUCCESS = 1;
+	FAILED = 2;
+	UNAUTHORIZED = 3;
+}
+
+// A Response to be sent back
+message Response {
+	required Status status = 1;
+	optional string message = 2;
+}
+
+// Different operations available
+enum OperationType {
+	TRIM = 1;
+	MERGE = 2;
+	BLUR = 3;
+	SCALE = 4;
+	BW = 5;
+	REMOVE_AUDIO = 6;
+	ADD_AUDIO = 7;
+	EXTRACT_AUDIO = 8;
+	IMAGES = 9;
+}
+
+// An entire operation with its params
+message Operation {
+	required OperationType type = 1;
+	oneof params {
+		TrimParams trim = 2;
+	}
+}
+
+// A request
+message Request {
+	required string down_path = 1;
+	repeated Operation operations = 2;
+}
+
+message TrimParams {
+	required int32 start = 1;
+	required int32 end = 2;
+}
+
+message MergeParams {
+	required string 
+}
